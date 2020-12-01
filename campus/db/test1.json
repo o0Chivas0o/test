@@ -1,0 +1,41 @@
+[
+  {
+    "id": "1605",
+    "alarm": {
+      "state": true,
+      "level": 1,
+      "description": "告警等级 1"
+    },
+    "monitor": {
+      "state": true,
+      "description": "空调开启"
+    }
+  },
+  {
+    "id": "1606",
+    "alarm": {
+      "state": true,
+      "level": 2,
+      "description": "告警等级 2"
+    },
+    "monitor": {
+      "state": true,
+      "description": "烟感器开启"
+    }
+  },
+  {
+    "id": "2271",
+    "alarm": {
+      "state": true,
+      "level": 3,
+      "description": "告警等级 3"
+    }
+  },
+  {
+    "id": "6555",
+    "monitor": {
+      "state": false,
+      "description": "门关闭"
+    }
+  }
+]

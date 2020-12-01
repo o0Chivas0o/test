@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ZH-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../thing.js"></script>
+    <style>
+        * {margin: 0;padding: 0;box-sizing: border-box;list-style: none;}
+        #app {width: 100%;height: 100%;}
+        .blur {
+            position: absolute;
+            top: 300px;
+            left: 500px;
+            color: yellow;
+            background: hsla(0, 0%, 100%, .05);
+            backdrop-filter: blur(6px);
+            z-index: 10;
+            height: 200px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<div class="blur">
+    <ul>
+        <li>1. 啊啊啊啊啊啊啊</li>
+        <li>2. 啊啊啊啊啊啊啊</li>
+        <li>3. 啊啊啊啊啊啊啊</li>
+        <li>4. 啊啊啊啊啊啊啊</li>
+    </ul>
+</div>
+<div id="app"></div>
+</body>
+<script type="module">
+  import Demo from './demo.js'
+  import Default from './Default.js'
+  import { getFakeData } from '../utils'
+  
+  window.app = new THING.App({
+    container: 'app',
+    url: 'https://www.thingjs.com/static/models/storehouse',
+    skyBox: 'Night'
+  })
+  
+  // 触发事件
+  async function init() {
+    let data = await getFakeData('../db/test1.json')
+    app.on('load', async e => {
+      const test = await new Demo(app, Default)
+      console.log('触发default alarm 事件')
+      test.update(data)
+      console.log('调用 removeState 删除 default alarm 事件')
+      test.removeState('Alarm')
+      const myAlarm = (e) => {
+        switch (e.level) {
+          case 1 :
+            e.object.style.color = '#ff0000'
+            console.log(e.object.name, e.description)
+            break
+          case 2 :
+            e.object.scale = [1.5, 1.5, 1.5]
+            console.log(e.object.name, e.description)
+            break
+          case 3 :
+            e.object.style.outlineColor = 'rgb(100,100,100)'
+            console.log(e.object.name, e.description)
+            break
+        }
+      }
+      console.log('调用 setState 设置自定义 alarm 事件')
+      test.setState('Alarm', myAlarm, 'myAlarm')
+      console.log('调用 useState 启用自定义 alarm 事件')
+      test.useState('Alarm', '.Thing', 'myAlarm')
+      setTimeout(() => {
+        console.log('传递数据 触发 alarm 事件')
+        test.update(data)
+      }, 5000)
+    })
+  }
+  
+  init()
+</script>
+</html>
